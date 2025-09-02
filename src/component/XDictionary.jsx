@@ -8,28 +8,28 @@ function XDictionary() {
   ]);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [result, setResult] = useState("");
+  const [definition, setDefinition] = useState("");
 
   const handleSearch = () => {
+    if (searchTerm.trim() === "") {
+      setDefinition("Word not found in the dictionary.");
+      return;
+    }
+
     const foundWord = dictionary.find(
       (entry) => entry.word.toLowerCase() === searchTerm.trim().toLowerCase()
     );
 
     if (foundWord) {
-      setResult(
-        <div>
-          <h3>Definition:</h3>
-          <p>{foundWord.meaning}</p>
-        </div>
-      );
+      setDefinition(foundWord.meaning);
     } else {
-      setResult(<p>Word not found in the dictionary.</p>);
+      setDefinition("Word not found in the dictionary.");
     }
   };
 
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>XDictionary</h1>
+      <h1>Dictionary App</h1>
       <input
         type="text"
         placeholder="Enter a word"
@@ -37,7 +37,11 @@ function XDictionary() {
         onChange={(e) => setSearchTerm(e.target.value)}
       />
       <button onClick={handleSearch}>Search</button>
-      <div style={{ marginTop: "20px" }}>{result}</div>
+
+      <div style={{ marginTop: "20px" }}>
+        <h3>Definition:</h3>
+        <p>{definition}</p>
+      </div>
     </div>
   );
 }
